@@ -1,0 +1,452 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineIngressos</title>
+    <link rel="stylesheet" href="{% static 'ingressos/css/style.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'ingressos/images/favicon.svg' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        // O Django injeta os preços e quantidades atualizados aqui!
+        const ESTOQUE_DJANGO = {{ categorias_json| safe }};
+    </script>
+</head>
+
+<body>
+
+    <!-- ===================== NOTIFICAÇÕES (TOASTS) ===================== -->
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <!-- A classe vai receber 'toast--success' ou 'toast--error' dinamicamente -->
+        <div class="toast toast--{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <div class="reel-strip reel-strip--top" aria-hidden="true"></div>
+
+    <header class="topbar">
+        <div class="topbar__inner">
+            <div class="ticket5">
+                <img src="{% static 'ingressos/images/ticket.png' %}">
+
+            </div>
+
+            <a href="#inicio" class="brand" data-nav="inicio">
+                <h4 class="brand_mark">Cine<em>Ingressos</em></h4>
+            </a>
+
+            <nav class="mainnav" aria-label="Navegação principal">
+                <button type="button" class="mainnav__link is-active" data-nav="inicio">Início</button>
+                <button type="button" class="mainnav__link" data-nav="comprar">Comprar Ingressos</button>
+                <button type="button" class="mainnav__link" data-nav="consultar">Consultar Ingressos</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ===================== INÍCIO ===================== -->
+        <section class="view is-active" id="view-inicio">
+
+            <section class="hero">
+                <div class="hero__seats">
+                    <div class="seat-row"></div>
+                    <div class="seat-row"></div>
+                    <div class="seat-row"></div>
+                    <div class="seat-row"></div>
+                </div>
+
+                <div class="hero_image">
+
+                    <img src="{% static 'ingressos/images/salaCinema.png' %}">
+
+                </div>
+                <div class="hero__content">
+                    <div class="hero__overlay">
+                        <p class="hero__kicker">Bilheteria digital!!</p>
+                    </div>
+                    <h1 class="hero__title">Grandes histórias<br>começam com um ingresso<span
+                            class="hero__highlight">!</span></h1>
+                    <p class="hero__lede">Escolha sua faixa etária, garanta o lugar e acompanhe a disponibilidade de
+                        vagas em tempo real — sem fila, sem complicação.</p>
+                    <div class="hero__actions">
+                        <button class="btn btn--primary" data-nav="comprar">Comprar ingressos</button>
+                        <button class="btn btn--ghost" data-nav="consultar">Consultar disponibilidade</button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="reel-strip" aria-hidden="true"></div>
+
+            <section class="section">
+                <div class="section__head">
+                    <h2>Filmes em cartaz 🎬</h2>
+                    <p class="head">Os melhores filmes na melhor bilheteria!<br>
+                        Muito além da tela: viva as maiores superproduções e
+                        os maiores sucessos do cinema em um só lugar. Onde as
+                        grandes histórias ganham vida e os maiores sucessos de
+                        bilheteria encontram você. Prepare a pipoca para encarar grandes emoções, blockbusters
+                        imperdíveis e a energia
+                        inconfundível da telona. Tenha à sua disposição a sua poltrona VIP para as estreias mais
+                        aguardadas e os filmes que conquistaram o mundo, descobrindo o destino definitivo para quem não
+                        abre mão de assistir aos maiores fenômenos da indústria. Da adrenalina à emoção mais pura,
+                        explore os filmes mais aclamados e as bilheterias históricas
+                        em alta definição, reunindo emoção sem limites, estreias inesquecíveis e os maiores recordes do
+                        cinema em uma experiência verdadeiramente única.
+
+
+                    </p>
+                </div>
+                <div class="movies-carousel" aria-label="Filmes em cartaz">
+                    <button type="button" class="movies-carousel__arrow movies-carousel__arrow--prev" id="moviePrev"
+                        aria-label="Filme anterior">‹</button>
+
+                    <div class="movies-carousel__viewport" id="movieViewport">
+                        <div class="ticket-grid" id="movieTrack">
+                            <article class="ticket-card movie-card" data-title="Avengers: Endgame" data-year="2019"
+                                data-description="Após os acontecimentos devastadores de Guerra Infinita, os Vingadores restantes precisam reunir forças para uma última e decisiva missão. O grupo enfrenta perdas, viagens no tempo e escolhas difíceis na tentativa de restaurar o equilíbrio do universo e derrotar Thanos definitivamente.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de Avengers: Endgame">
+                                    <img src="{% static 'ingressos/images/filme1.png' %}"
+                                        alt="Poster do filme Avengers: Endgame">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>Avengers: Endgame <span>2019</span></h5>
+                                    <p>Após acontecimentos devastadores, os Vingadores se unem para uma última missão...
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card" data-title="Deuses do Egito" data-year="2016"
+                                data-description="No antigo Egito, o jovem mortal Bek embarca em uma jornada perigosa para salvar o mundo e recuperar o amor de sua vida. Ao lado do deus Hórus, ele enfrenta Set, o poderoso governante que mergulhou o reino no caos e ameaça destruir o equilíbrio entre os deuses e os mortais.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de Deuses do Egito">
+                                    <img src="{% static 'ingressos/images/filme2.png' %}"
+                                        alt="Poster do filme Deuses do Egito">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>Deuses do Egito <span>2016</span></h5>
+                                    <p>Um jovem mortal embarca em uma jornada para enfrentar deuses e salvar seu
+                                        mundo...</p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card" data-title="O Exterminador do Futuro: Gênesis"
+                                data-year="2015"
+                                data-description="John Connor envia Kyle Reese ao passado para proteger Sarah Connor e garantir o futuro da humanidade. Porém, ao chegar a 1984, Kyle encontra uma realidade completamente diferente da que esperava, com novas ameaças, aliados inesperados e uma linha do tempo alterada.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de O Exterminador do Futuro">
+                                    <img src="{% static 'ingressos/images/filme3.png' %}"
+                                        alt="Poster do filme O Exterminador do Futuro">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>O Exterminador do Futuro <span>2015</span></h5>
+                                    <p>Uma viagem ao passado revela uma realidade diferente e novas ameaças à
+                                        humanidade...</p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card"
+                                data-title="Motoqueiro Fantasma: Espírito de Vingança" data-year="2011"
+                                data-description="Johnny Blaze vive escondido tentando controlar a maldição que o transforma no Motoqueiro Fantasma. Quando surge uma nova ameaça sobrenatural, ele é chamado para proteger uma criança e impedir que forças malignas utilizem o menino para trazer o caos ao mundo.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de Motoqueiro Fantasma">
+                                    <img src="{% static 'ingressos/images/filme4.png' %}"
+                                        alt="Poster do filme Motoqueiro Fantasma: Espírito de Vingança">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>Motoqueiro Fantasma <span>2011</span></h5>
+                                    <p>Johnny Blaze precisa enfrentar uma nova ameaça sobrenatural para impedir o
+                                        caos...</p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card" data-title="Homem Aranha: Um Novo Dia"
+                                data-year="2026"
+                                data-description="Vivendo em anonimato absoluto quatro anos após os eventos de Sem Volta Para Casa, o herói enfrenta sua fase mais sombria e solitária. Levado ao limite extremo de suas forças, Peter vê seus poderes evoluírem de forma imprevisível e perigosa. Quando um padrão de crimes enigmáticos começa a assombrar a cidade, ele se torna o único obstáculo entre a sobrevivência de Nova York e uma ameaça invisível e devastadora. A caçada começou, e desta vez, ele está completamente sozinho.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de Homem Aranha">
+                                    <img src="{% static 'ingressos/images/filme5.jpg' %}"
+                                        alt="Poster do filme Homem Aranha: Um Novo Dia">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>Homem Aranha: Um Novo Dia <span>2026</span></h5>
+                                    <p>O mundo esqueceu Peter Parker, mas Nova York nunca deixará de precisar do
+                                        Homem-Aranha...</p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card" data-title="Indiana Jones: A Relíquia do Destino"
+                                data-year="2023"
+                                data-description=" Em 1969, vivendo em um mundo que parece tê-lo deixado para trás, ele é arrastado de volta à ação por sua afilhada Helena. Juntos, eles correm contra o tempo para encontrar a Relíquia do Destino — um artefato milenar capaz de alterar o próprio tecido da história. Com nazistas infiltrados na corrida espacial em seu encalço, Indy precisará usar toda a sua astúcia, seu chicote e sua coragem para garantir que o passado não caia nas mãos erradas. Prepare-se para uma jornada épica ao redor do mundo, repleta de mistério, perigo e a nostalgia que consagrou o maior herói do cinema.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de Indiana Jones">
+                                    <img src="{% static 'ingressos/images/filme6.jpg' %}"
+                                        alt="Poster do filme Indiana Jones: A Relíquia do Destino">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>Indiana Jones: A Relíquia do Destino <span>2023</span></h5>
+                                    <p>O tempo é o único inimigo que Indiana Jones nunca conseguiu vencer...</p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card" data-title="A Guerra do Amanhã" data-year="2023"
+                                data-description="O mundo entra em colapso quando soldados vindos do ano 2051 interrompem um jogo de futebol para entregar uma mensagem desesperada: trinta anos no futuro, a humanidade está enfrentando a extinção total em uma guerra brutal contra uma raça alienígena implacável. Sem forças para resistir, a única esperança do futuro é recrutar civis do presente para serem transportados até a linha de frente. Entre eles está Dan Forester, um professor de biologia e ex-militar determinado a garantir que sua filha pequena tenha um amanhã. Ao lado de uma cientista brilhante e de seu pai distante, Dan embarca em uma missão suicida no futuro para tentar reescrever o destino do planeta Terra.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de A Guerra do Amanhã">
+                                    <img src="{% static 'ingressos/images/filme7.jpg' %}"
+                                        alt="Poster do filme A Guerra do Amanhã">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>A Guerra do Amanhã <span>2021</span></h5>
+                                    <p>O mundo sofre uma guerra global contra uma espécie alienígena mortal conhecida
+                                        como Garras Brancas...</p>
+                                </div>
+                            </article>
+
+                            <article class="ticket-card movie-card" data-title="Rei Arthur: A Lenda da Espada"
+                                data-year="2023"
+                                data-description="Criado nas ruas escuras e caóticas de Londonium, o jovem Arthur não faz ideia do sangue real que corre em suas veias — até o dia em que o destino o coloca diante da rocha e ele arranca a lendária Excalibur do concreto. O poder avassalador da espada desperta visões de um passado brutal e o transforma instantaneamente no homem mais procurado do reino. Caçado por seu tio Vortigern, um tirano impiedoso que vendeu a própria alma para usurpar o trono, Arthur precisará dominar a magia da lâmina, unir-se a uma resistência rebelde e abraçar o legado que sempre tentou ignorar. Esqueça os contos de fadas tradicionais: esta é uma batalha visceral, movida a adrenalina, sangue e magia negra pela sobrevivência de uma nação.">
+                                <button type="button" class="movie-card__button"
+                                    aria-label="Ver descrição completa de Rei Arthur: A Lenda da Espada">
+                                    <img src="{% static 'ingressos/images/filme8.jpg' %}"
+                                        alt="Poster do filme Rei Arthur: A Lenda da Espada">
+                                </button>
+                                <div class="ticket__info">
+                                    <h5>Rei Arthur: A Lenda da Espada <span>2017</span></h5>
+                                    <p>Criado nas ruas escuras e caóticas de Londonium, o jovem Arthur não faz ideia do
+                                        sangue real que corre em suas veias...</p>
+                                </div>
+                            </article>
+
+                        </div>
+                    </div>
+
+                    <button type="button" class="movies-carousel__arrow movies-carousel__arrow--next" id="movieNext"
+                        aria-label="Próximo filme">›</button>
+                </div>
+            </section>
+
+            <div class="reel-strip" aria-hidden="true"></div>
+
+            <section class="section section--steps">
+                <div class="section__head">
+                    <h2>Como funciona</h2>
+                </div>
+                <ol class="steps">
+                    <li class="step">
+                        <span class="step__num">1</span>
+                        <h3>Informe sua idade</h3>
+                        <p>O sistema identifica automaticamente sua categoria — criança, adolescente ou adulto.</p>
+                    </li>
+                    <li class="step">
+                        <span class="step__num">2</span>
+                        <h3>Escolha a quantidade</h3>
+                        <p>Selecione quantos ingressos deseja, respeitando as vagas disponíveis para a categoria.</p>
+                    </li>
+                    <li class="step">
+                        <span class="step__num">3</span>
+                        <h3>Confirme a compra</h3>
+                        <p>Receba seu ingresso digital, com código de retirada, pronto para consulta a qualquer momento.
+                        </p>
+                    </li>
+                </ol>
+            </section>
+
+        </section>
+
+
+        <!-- ===================== COMPRAR ===================== -->
+
+
+
+        <section class="view" id="view-comprar">
+            <section class="section section--narrow">
+                <div class="section__head">
+                    <h2>Comprar ingressos</h2>
+                    <p>Preencha os dados abaixo para reservar seu lugar na sessão.</p>
+                </div>
+
+                <form id="formCompra" class="purchase">
+                    {% csrf_token %}
+                    <ol class="progress" id="progressBar">
+                        <!-- 1º Ponto: Nome alterado para Identificação -->
+                        <li class="progress__item is-active" data-step="1">Identificação</li>
+                        <li class="progress__item" data-step="2">Quantidade</li>
+                        <li class="progress__item" data-step="3">Confirmação</li>
+                    </ol>
+
+                    <!-- Passo 1 -->
+                    <div class="purchase__panel is-active" data-panel="1">
+                        <!-- 1º Ponto: Novo Campo Nome -->
+                        <label class="field">
+                            <span class="field__label">Qual é o seu nome completo?</span>
+                            <input type="text" name="nome_cliente" id="inputNome" placeholder="Ex.: João da Silva"
+                                required>
+                        </label>
+                        <label class="field">
+                            <span class="field__label">Qual a sua idade?</span>
+                            <input type="number" name="idade" id="inputIdade" min="0" max="120" placeholder="Ex.: 27"
+                                required>
+                        </label>
+                        <!-- Retorno dinâmico da categoria -->
+                        <p class="field__hint" id="categoriaHint">Informe sua idade para descobrirmos sua categoria de
+                            ingresso.</p>
+                        <div class="purchase__actions">
+                            <button class="btn btn--primary" type="button" id="btnParaQuantidade">Continuar</button>
+                        </div>
+                    </div>
+
+                    <!-- Passo 2 -->
+                    <div class="purchase__panel" data-panel="2">
+                        <div class="qty-card" id="qtyCategoriaCard">
+                            <!-- Ponto 2: Card dinâmico (preenchido no JS) -->
+                        </div>
+                        <label class="field">
+                            <span class="field__label">Quantos ingressos?</span>
+                            <div class="stepper">
+                                <button type="button" class="stepper__btn" id="qtyMenos">–</button>
+                                <input type="number" name="quantidade" id="inputQtd" value="1" min="1" max="5" readonly>
+                                <button type="button" class="stepper__btn" id="qtyMais">+</button>
+                            </div>
+                        </label>
+                        <!-- Ponto 2: Aviso de máximo de ingressos -->
+                        <p class="field__hint">Você pode selecionar no máximo 5 ingressos por compra.</p>
+                        <div class="purchase__actions">
+                            <button type="button" class="btn btn--text" data-back="1">Voltar</button>
+                            <button type="button" class="btn btn--primary" id="btnParaConfirmacao">Revisar
+                                pedido</button>
+                        </div>
+                    </div>
+
+                    <!-- Passo 3 -->
+                    <div class="purchase__panel" data-panel="3">
+                        <div class="review" id="reviewBox">
+                            <!-- Ponto 3: Card de Confirmação (preenchido no JS) -->
+                        </div>
+                        <div class="purchase__actions">
+                            <button type="button" class="btn btn--text" data-back="2">Voltar</button>
+                            <!-- O botão deve ser apenas um button (o JS vai enviar via fetch) -->
+                            <button type="button" class="btn btn--primary" id="btnConfirmarCompra">Confirmar
+                                compra</button>
+                        </div>
+                    </div>
+
+                    <!-- Passo Sucesso (Ticket) -->
+                    <div class="purchase__panel" data-panel="sucesso">
+                        <div class="stub" id="ticketStub">
+                            <!-- Ponto 3.1: Ticket renderizado no JS -->
+                        </div>
+                        <div class="purchase__actions purchase__actions--center">
+                            <button type="button" class="btn btn--ghost" onclick="location.reload()">Comprar outro
+                                ingresso</button>
+                            <button type="button" class="btn btn--primary" data-nav="consultar">Ver meus
+                                ingressos</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </section>
+
+        <!-- ===================== CONSULTAR ===================== -->
+        <section class="view" id="view-consultar">
+            <section class="section">
+                <div class="section__head">
+                    <h2>Disponibilidade em Tempo Real</h2>
+                    <p>Veja a disponibilidade por categoria ou localize um ingresso pelo código.</p>
+                </div>
+
+                <div class="availability-carousel">
+                    <!-- Loop do Django para listar os estoques -->
+                    {% for categoria in categorias %}
+                    <div class="ticket-card" data-tone="gold">
+                        <div class="ticket-card__icon">🎟️</div>
+                        <span class="ticket-card__label">{{ categoria.nome }}</span>
+                        <span class="ticket-card__count">{{ categoria.quantidade_disponivel }}</span>
+                        <span class="ticket-card__unit">vagas restantes</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="section__head section__head--tight">
+                    <h3>Meus ingressos</h3>
+                    <p>Confira abaixo seus ingressos e seus códigos de retirada.</p>
+                </div>
+
+                <div class="lookup">
+                    <label class="field">
+                        <span class="field__label">Código do ingresso</span>
+                        <div class="lookup__row">
+                            <input type="text" id="inputCodigo" placeholder="Ex.: CI-06D9F">
+                            <button class="btn btn--primary" id="btnBuscarCodigo">Buscar</button>
+                        </div>
+                    </label>
+                    <div id="lookupResult">
+                        <!-- Ponto 4: Resultado da busca inserido aqui -->
+                    </div>
+                </div>
+
+                <div class="history" id="historicoList"></div>
+            </section>
+        </section>
+
+    </main>
+
+    <div class="movie-modal" id="movieModal" aria-hidden="true">
+        <div class="movie-modal__backdrop" data-close-modal></div>
+        <div class="movie-modal__content" role="dialog" aria-modal="true" aria-labelledby="movieModalTitle">
+            <button type="button" class="movie-modal__close" data-close-modal aria-label="Fechar descrição">×</button>
+            <p class="movie-modal__year" id="movieModalYear"></p>
+            <h2 id="movieModalTitle"></h2>
+            <p id="movieModalDescription"></p>
+        </div>
+    </div>
+
+    <div class="reel-strip" aria-hidden="true"></div>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <button type="button" class="brand brand--footer" data-nav="inicio" aria-label="Voltar ao início">
+                    Cine<em>Ingressos</em>
+                </button>
+                <p class="footer__tag">Grandes histórias começam com um ingresso.</p>
+            </div>
+
+            <div class="footer__info">
+                <div>
+                    <h3>Navegação</h3>
+                    <button type="button" data-nav="inicio">Início</button>
+                    <button type="button" data-nav="comprar">Comprar ingressos</button>
+                    <button type="button" data-nav="consultar">Consultar ingressos</button>
+                </div>
+                <div>
+                    <h3>CineIngressos</h3>
+                    <p>Bilheteria digital simples, rápida e prática para sua experiência no cinema.</p>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p>© 2026 CineIngressos. Todos os direitos reservados.</p>
+                <p>Projeto desenvolvido para demonstração de uma bilheteria digital.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'ingressos/js/script.js' %}"></script>
+
+
+</body>
+
+</html>

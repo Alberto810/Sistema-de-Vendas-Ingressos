@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente Alaranjado Vivo -->
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="100%" stop-color="#F4511E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo Arredondado -->
+  <rect width="512" height="512" rx="112" fill="url(#orangeGrad)"/>
+
+  <!-- Ícone do Ingresso com Claquete -->
+  <g fill="#FFFFFF">
+    <!-- Corpo Principal do Ingresso (com recortes laterais) -->
+    <path d="M 136 120 
+             C 122.7 120 112 130.7 112 144 
+             L 112 220 
+             A 36 36 0 0 1 112 292 
+             L 112 368 
+             C 112 381.3 122.7 392 136 392 
+             L 376 392 
+             C 389.3 392 400 381.3 400 368 
+             L 400 292 
+             A 36 36 0 0 1 400 220 
+             L 400 144 
+             C 400 130.7 389.3 120 376 120 
+             Z" />
+  </g>
+
+  <!-- Detalhes do Cinema (Listras da Claquete recortadas em laranja) -->
+  <g fill="url(#orangeGrad)">
+    <!-- Tobo/Topo da claquete topo -->
+    <rect x="112" y="180" width="288" height="14" />
+
+    <!-- Dentes/Listras inclinadas da claquete -->
+    <polygon points="140,120 170,120 140,180 112,180" />
+    <polygon points="210,120 240,120 210,180 180,180" />
+    <polygon points="280,120 310,120 280,180 250,180" />
+    <polygon points="350,120 380,120 350,180 320,180" />
+
+    <!-- Estrela central (Símbolo de cinema/entretenimento) -->
+    <path d="M 256 235 
+             L 267.5 258.3 
+             L 293.2 262 
+             L 274.6 280.1 
+             L 279 305.7 
+             L 256 293.6 
+             L 233 305.7 
+             L 237.4 280.1 
+             L 218.8 262 
+             L 244.5 258.3 Z" />
+  </g>
+</svg>
