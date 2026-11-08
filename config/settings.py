@@ -1,5 +1,8 @@
 import os
 import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 """
 Django settings for config project.
@@ -31,10 +34,7 @@ IS_PRODUCTION = 'RENDER' in os.environ
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not IS_PRODUCTION
 
-if IS_PRODUCTION:
-    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
-else:
-    ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app']
 
 # Application definition
 
@@ -85,7 +85,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
+        # Ele vai tentar ler o DATABASE_URL do .env. Se não achar, usa o SQLite local.
+        default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
         conn_max_age=600
     )
 }
@@ -124,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 
 # Email
